@@ -21,18 +21,7 @@ mongoose
 //Routes
 app.get("/api/news", async (req, res) => {
   const newsItems = await News.find().sort({ publishedAt: -1 });
-  res.json(newsItems);
-});
-
-//delete all news items
-app.get("/news/delete-all", async (req, res) => {
-  try {
-    await News.deleteMany({});
-    res.json({ message: "All news items deleted" });
-  } catch (error) {
-    console.error("Error deleting news items:", error);
-    res.status(500).json({ error: "Failed to delete news items" });
-  }
+  res.json(newsItems || []);
 });
 
 app.get("/fetch-news", async (req, res) => {

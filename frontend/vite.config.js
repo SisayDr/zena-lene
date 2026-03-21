@@ -6,7 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   server: {
     proxy: {
-      "/api": "https://zena-lene-api.vercel.app",
+      "/api": "http://localhost:3000",
     },
   },
   plugins: [react(), tailwindcss()],

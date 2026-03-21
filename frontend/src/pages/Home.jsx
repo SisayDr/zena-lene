@@ -7,7 +7,7 @@ const Home = () => {
   const [relevantOnly, setRelevantOnly] = useState(true);
 
   const filteredZenaItems = useMemo(() => {
-    if (!zenaItems) return null;
+    if (!Array.isArray(zenaItems)) return [];
     return relevantOnly
       ? zenaItems.filter((zena) => zena.relevanceScore !== 0)
       : zenaItems;

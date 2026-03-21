@@ -1,23 +1,17 @@
 import useFetch from "../contexts/useFetch";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import ZenaCard from "../components/ZenaCard";
 
 const Home = () => {
-  const { data: zenaItems, isLoading, error } = useFetch("/api/news");
+  const { data: zenaItems, loading: isLoading, error } = useFetch("/api/news");
   const [relevantOnly, setRelevantOnly] = useState(true);
-  let [filteredZenaItems, setFilteredZenaItems] = useState(zenaItems);
 
-  useEffect(() => {
-    if (!zenaItems) return;
-
-    if (relevantOnly) {
-      setFilteredZenaItems(
-        zenaItems.filter((zena) => zena.relevanceScore !== 0),
-      );
-    } else {
-      setFilteredZenaItems(zenaItems);
-    }
-  }, [relevantOnly, zenaItems]);
+  const filteredZenaItems = useMemo(() => {
+    if (!zenaItems) return null;
+    return relevantOnly
+      ? zenaItems.filter((zena) => zena.relevanceScore !== 0)
+      : zenaItems;
+  }, [zenaItems, relevantOnly]);
 
   const TopNavBar = () => {
     return (
@@ -42,23 +36,19 @@ const Home = () => {
     );
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-gray-500 text-lg">Loading...</p>
-      </div>
-    );
-  } else if (error) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-red-500 text-lg">Error: {error.message}</p>
-      </div>
-    );
-  }
   return (
-    <div className="max-w-7xl m-auto p-5 ">
+    <div className="max-w-7xl m-auto p-5">
       <TopNavBar />
-      {filteredZenaItems.length === 0 ? (
+
+      {isLoading ? (
+        <div className="flex items-center justify-center h-screen">
+          <p className="text-gray-500 text-lg">Loading...</p>
+        </div>
+      ) : error ? (
+        <div className="flex items-center justify-center h-screen">
+          <p className="text-red-500 text-lg">Error: {error.message}</p>
+        </div>
+      ) : filteredZenaItems.length === 0 ? (
         <div className="flex items-center justify-center h-screen">
           <p className="text-gray-500 text-lg">No zena items to display.</p>
         </div>

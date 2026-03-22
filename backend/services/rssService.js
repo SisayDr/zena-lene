@@ -8,6 +8,10 @@ const SOURCES = [
     name: "Fana Media Corporation",
     url: "https://fanamc.com/feed/",
   },
+  {
+    name: "Wazema Radio",
+    url: "https://wazemaradio.com/feed/",
+  },
 ];
 const parser = new Parser();
 
@@ -22,12 +26,14 @@ export const fetchAndStoreNews = async () => {
 
       //Parse description
       const $ = cheerio.load(item["content:encoded"]);
-      const content = $.text().trim().slice(0, 300);
+      const content = $.text().trim().slice(0, 400);
 
       // Extract thumbnail where available
-      const thumbnail = item.enclosure?.type?.startsWith("image/")
-        ? item.enclosure.url
-        : item.thumbnail || $("img").first().attr("src") || null;
+      const thumbnail =
+        item.thumbnail ||
+        (item.enclosure?.type?.startsWith("image/")
+          ? item.enclosure.url
+          : $("img").first().attr("src") || null);
 
       const newsDoc = new News({
         link,

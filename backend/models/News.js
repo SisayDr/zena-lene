@@ -9,7 +9,6 @@ const newsSchema = new mongoose.Schema(
     thumbnail: { type: String, default: null },
     category: { type: String, default: null },
     relevanceScore: { type: Number, default: null },
-    tags: { type: [String], default: [] },
   },
   { timestamps: true },
 );

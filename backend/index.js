@@ -24,17 +24,6 @@ app.get("/api/news", async (req, res) => {
   res.json(newsItems || []);
 });
 
-//Delete all news items (for testing purposes)
-app.get("/delete-all", async (req, res) => {
-  try {
-    const result = await News.deleteMany({});
-    res.json({ message: `Deleted ${result.deletedCount} news items` });
-  } catch (error) {
-    console.error("Error deleting news items:", error);
-    res.status(500).json({ error: "Failed to delete news items" });
-  }
-});
-
 app.get("/fetch-news", async (req, res) => {
   try {
     const newsItems = await fetchAndStoreNews();

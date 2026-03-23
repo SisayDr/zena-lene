@@ -21,7 +21,10 @@ export const fetchAndStoreNews = async () => {
     const feed = await parser.parseURL(source.url);
 
     for (const item of feed.items) {
-      const link = item.link?.split("?")[0].trim();
+      const link = item.guid?.startsWith("https")
+        ? item.guid
+        : item.link?.split("?")[0].trim();
+
       const publishedAt = new Date(item.pubDate);
 
       //Parse description
@@ -96,8 +99,9 @@ export const fetchAndStoreNews = async () => {
           `Deleted ${deleted.deletedCount} items that failed to update`,
         );
       }
-      // Sleep for 70 seconds to respect rate limits
-      await new Promise((resolve) => setTimeout(resolve, 70000));
+      // Sleep for 70 seconds to respect rate limits after every 4th iteration
+      if (i !== 0 && (i / chunkSize) % 4 === 0)
+        await new Promise((resolve) => setTimeout(resolve, 70000));
     }
   }
 };

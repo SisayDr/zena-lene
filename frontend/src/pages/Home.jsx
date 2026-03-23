@@ -46,7 +46,7 @@ const Home = () => {
         </div>
       ) : error ? (
         <div className="flex items-center justify-center h-screen">
-          <p className="text-red-500 text-lg">Error: {error.message}</p>
+          <p className="text-red-500 text-lg">{error.message}</p>
         </div>
       ) : filteredZenaItems.length === 0 ? (
         <div className="flex items-center justify-center h-screen">

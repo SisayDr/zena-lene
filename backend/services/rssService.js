@@ -8,6 +8,10 @@ const SOURCES = [
     name: "Fana Media Corporation",
     url: "https://fanamc.com/feed/",
   },
+  {
+    name: "Wazama Radio",
+    url: "https://wazemaradio.com/feed/",
+  }
 ];
 const parser = new Parser();
 

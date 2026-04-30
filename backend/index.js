@@ -20,7 +20,7 @@ mongoose
 
 //Routes
 app.get("/api/news", async (req, res) => {
-  const newsItems = await News.find().sort({ publishedAt: -1 });
+  const newsItems = await News.find().sort({ publishedAt: -1 }).limit(24);
   res.json(newsItems || []);
 });
 

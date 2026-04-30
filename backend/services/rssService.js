@@ -42,6 +42,8 @@ export const fetchAndStoreNews = async () => {
       });
 
       try {
+        const alreadyExists = await News.findOne({ link });
+        if (alreadyExists) continue;
         const savedNews = await newsDoc.save();
         newsItems.push({
           _id: savedNews._id,
